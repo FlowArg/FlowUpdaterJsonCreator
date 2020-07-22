@@ -1,0 +1,39 @@
+plugins {
+    id "com.github.johnrengelman.shadow" version "5.2.0"
+}
+
+apply plugin: 'java-library'
+apply plugin: 'application'
+apply plugin: 'idea'
+
+group 'fr.flowarg'
+version '1.0.0'
+archivesBaseName = "FlowUpdaterJsonCreator"
+
+compileJava {
+    targetCompatibility = sourceCompatibility = JavaVersion.VERSION_1_8
+    options.encoding = 'UTF-8'
+}
+
+task sourcesJar(type: Jar, dependsOn: classes) {
+    classifier 'sources'
+    from sourceSets.main.allSource
+}
+
+repositories {
+    jcenter()
+    maven {
+        url "https://flowarg.github.io/maven/"
+    }
+}
+
+dependencies {
+    implementation 'fr.flowarg:flowmultitools:1.0.2'
+    implementation 'com.jfoenix:jfoenix:8.+'
+    implementation 'com.google.code.gson:gson:2.+'
+    implementation 'de.jensd:fontawesomefx:8.9'
+}
+
+application {
+    mainClassName = 'fr.flowarg.flowupdaterjsoncreator.Main'
+}
