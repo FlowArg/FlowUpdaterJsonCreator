@@ -61,8 +61,9 @@ class SelectModsDirPanel extends AbstractPanel
                         final FileChooser jsonFileChooser = new FileChooser();
                         jsonFileChooser.setInitialFileName("mods.json");
                         jsonFileChooser.setTitle("Choose output JSON file");
+                        jsonFileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("JavaScript Object Notation JSON", ".json"));
                         jsonFileChooser.setSelectedExtensionFilter(new FileChooser.ExtensionFilter("JavaScript Object Notation JSON", ".json"));
-                        jsonFile.set(jsonFileChooser.showOpenDialog(this.panelManager.getStage()));
+                        jsonFile.set(jsonFileChooser.showSaveDialog(this.panelManager.getStage()));
                         if(jsonFile.get() != null)
                         {
                             processor.saveJson(jsonFile.get());
