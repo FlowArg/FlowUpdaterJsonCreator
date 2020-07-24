@@ -1,6 +1,5 @@
 package fr.flowarg.flowupdaterjsoncreator.ui.panels;
 
-import com.jfoenix.controls.JFXAlert;
 import com.jfoenix.controls.JFXButton;
 import fr.flowarg.flowupdaterjsoncreator.Processor;
 import fr.flowarg.flowupdaterjsoncreator.ui.PanelManager;
@@ -62,7 +61,6 @@ class SelectModsDirPanel extends AbstractPanel
                         jsonFileChooser.setInitialFileName("mods.json");
                         jsonFileChooser.setTitle("Choose output JSON file");
                         jsonFileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("JavaScript Object Notation JSON", ".json"));
-                        jsonFileChooser.setSelectedExtensionFilter(new FileChooser.ExtensionFilter("JavaScript Object Notation JSON", ".json"));
                         jsonFile.set(jsonFileChooser.showSaveDialog(this.panelManager.getStage()));
                         if(jsonFile.get() != null)
                         {
