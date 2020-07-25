@@ -1,6 +1,10 @@
 package fr.flowarg.flowupdaterjsoncreator;
 
 import fr.flowarg.flowlogger.Logger;
+import fr.flowarg.flowupdaterjsoncreator.processors.ExternalFileProcessor;
+import fr.flowarg.flowupdaterjsoncreator.processors.IProcessor;
+import fr.flowarg.flowupdaterjsoncreator.processors.MCPProcessor;
+import fr.flowarg.flowupdaterjsoncreator.processors.ModProcessor;
 import fr.flowarg.flowupdaterjsoncreator.ui.FxApplication;
 import fr.flowarg.flowupdaterjsoncreator.ui.PanelManager;
 import javafx.application.Application;
@@ -13,7 +17,9 @@ public class FlowUpdaterJsonCreator
 {
     private static FlowUpdaterJsonCreator instance;
     private final Logger logger;
-    private final Processor processor;
+    private final IProcessor modProcessor;
+    private final IProcessor mcpProcessor;
+    private final IProcessor externalFileProcessor;
     private PanelManager panelManager;
 
     FlowUpdaterJsonCreator() throws IOException
@@ -24,7 +30,9 @@ public class FlowUpdaterJsonCreator
         logFile.delete();
         logFile.createNewFile();
         this.logger = new Logger("[JsonCreator]", logFile);
-        this.processor = new Processor();
+        this.modProcessor = new ModProcessor();
+        this.mcpProcessor = new MCPProcessor();
+        this.externalFileProcessor = new ExternalFileProcessor();
         this.logger.info("Starting json creator...");
         try
         {
@@ -58,9 +66,19 @@ public class FlowUpdaterJsonCreator
         this.panelManager = new PanelManager(this, stage);
     }
 
-    public Processor getProcessor()
+    public IProcessor getModProcessor()
     {
-        return this.processor;
+        return this.modProcessor;
+    }
+
+    public IProcessor getMcpProcessor()
+    {
+        return this.mcpProcessor;
+    }
+
+    public IProcessor getExternalFileProcessor()
+    {
+        return this.externalFileProcessor;
     }
 
     public static FlowUpdaterJsonCreator getInstance()

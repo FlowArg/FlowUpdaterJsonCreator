@@ -1,7 +1,7 @@
 package fr.flowarg.flowupdaterjsoncreator.ui.panels;
 
 import com.jfoenix.controls.JFXButton;
-import fr.flowarg.flowupdaterjsoncreator.Processor;
+import fr.flowarg.flowupdaterjsoncreator.processors.IProcessor;
 import fr.flowarg.flowupdaterjsoncreator.ui.PanelManager;
 import javafx.application.Platform;
 import javafx.scene.Cursor;
@@ -15,18 +15,21 @@ import javafx.stage.FileChooser;
 import java.io.File;
 import java.util.concurrent.atomic.AtomicReference;
 
-class SelectModsDirPanel extends AbstractPanel
+public class GenerationPanel extends AbstractPanel
 {
-    public SelectModsDirPanel()
+    private final JsonType type;
+
+    public GenerationPanel(JsonType type)
     {
         super(null);
+        this.type = type;
     }
 
     @Override
     public void init(PanelManager panelManager)
     {
         super.init(panelManager);
-        final Label action = new Label("Select the mods directory");
+        final Label action = new Label(this.type.getLabelText());
         action.setFont(Font.font("Consolas", 48));
         action.setTextFill(Color.WHITE);
 
@@ -41,16 +44,27 @@ class SelectModsDirPanel extends AbstractPanel
         button.setOnMouseClicked(event -> {
             button.setCursor(Cursor.DEFAULT);
             final DirectoryChooser chooser = new DirectoryChooser();
-            chooser.setTitle("Select mods directory");
+            chooser.setTitle(this.type.getLabelText());
             final File file = chooser.showDialog(this.panelManager.getStage());
             if(file != null)
             {
                 this.panelManager.showPanel(Panels.LOADING_PANEL);
                 new Thread(() -> {
-                    final Processor processor = this.panelManager.getJsonCreator().getProcessor();
-                    processor.listFiles(file);
-                    processor.processMods();
-                    processor.generateJson();
+                    IProcessor processor;
+                    switch (this.type)
+                    {
+                        case MCP:
+                            processor = this.panelManager.getJsonCreator().getMcpProcessor();
+                            break;
+                        case EXT_FILES:
+                            processor = this.panelManager.getJsonCreator().getExternalFileProcessor();
+                            break;
+                        default:
+                            processor = this.panelManager.getJsonCreator().getModProcessor();
+                            break;
+                    }
+                    processor.process(file);
+                    processor.generate();
                     final AtomicReference<File> jsonFile = new AtomicReference<>(null);
                     Platform.runLater(() -> {
                         final Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -58,16 +72,16 @@ class SelectModsDirPanel extends AbstractPanel
                         alert.setContentText("Now, you have to select the output JSON file !");
                         alert.showAndWait();
                         final FileChooser jsonFileChooser = new FileChooser();
-                        jsonFileChooser.setInitialFileName("mods.json");
+                        jsonFileChooser.setInitialFileName(this.type.getDefaultFileName());
                         jsonFileChooser.setTitle("Choose output JSON file");
                         jsonFileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("JavaScript Object Notation JSON", ".json"));
                         jsonFile.set(jsonFileChooser.showSaveDialog(this.panelManager.getStage()));
                         if(jsonFile.get() != null)
                         {
-                            processor.saveJson(jsonFile.get());
+                            processor.save(jsonFile.get());
                             this.panelManager.showPanel(new EndPanel());
                         }
-                        else this.panelManager.showPanel(Panels.SELECT_MODS_DIR_PANEL);
+                        else this.panelManager.showPanel(new GenerationPanel(this.type));
                     });
                 }).start();
             }
@@ -89,6 +103,6 @@ class SelectModsDirPanel extends AbstractPanel
     @Override
     public String getName()
     {
-        return "Select mods dir panel";
+        return "Generation panel";
     }
 }

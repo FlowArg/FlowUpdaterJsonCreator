@@ -1,10 +1,11 @@
-package fr.flowarg.flowupdaterjsoncreator;
+package fr.flowarg.flowupdaterjsoncreator.processors;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import fr.flowarg.flowio.FileUtils;
+import fr.flowarg.flowupdaterjsoncreator.json.Mod;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -13,28 +14,25 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Processor
+public class ModProcessor implements IProcessor
 {
-    private final List<File> modsFile = new ArrayList<>();
     private final List<Mod> mods = new ArrayList<>();
     private String finalJson;
 
-    public void listFiles(File dir)
+    @Override
+    public void process(File dir, Object... args)
     {
-        this.modsFile.clear();
+        this.mods.clear();
         if(dir.listFiles() != null)
             for (File mod : dir.listFiles())
                 if(!mod.isDirectory())
-                    modsFile.add(mod);
+                {
+                    mods.add(new Mod(mod.getName(), "", FileUtils.getSHA1(mod), (int)FileUtils.getFileSizeBytes(mod)));
+                }
     }
 
-    public void processMods()
-    {
-        this.mods.clear();
-        this.modsFile.forEach(file -> mods.add(new Mod(file.getName(), "", FileUtils.getSHA1(file), (int)FileUtils.getFileSizeBytes(file))));
-    }
-
-    public void generateJson()
+    @Override
+    public void generate(Object... args)
     {
         final JsonObject object = new JsonObject();
         final JsonArray modArray = new JsonArray(this.mods.size());
@@ -52,11 +50,12 @@ public class Processor
         this.finalJson = gson.toJson(object);
     }
 
-    public void saveJson(File jsonFile)
+    @Override
+    public void save(File file, Object... args)
     {
         try
         {
-            final BufferedWriter writer = new BufferedWriter(new FileWriter(jsonFile));
+            final BufferedWriter writer = new BufferedWriter(new FileWriter(file));
             writer.write(this.finalJson);
             writer.flush();
             writer.close();

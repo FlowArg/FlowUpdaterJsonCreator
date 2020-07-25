@@ -1,4 +1,4 @@
-package fr.flowarg.flowupdaterjsoncreator;
+package fr.flowarg.flowupdaterjsoncreator.json;
 
 public class Mod
 {
