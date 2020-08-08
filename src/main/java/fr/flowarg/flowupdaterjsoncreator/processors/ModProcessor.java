@@ -27,7 +27,7 @@ public class ModProcessor implements IProcessor
             for (File mod : dir.listFiles())
                 if(!mod.isDirectory())
                 {
-                    mods.add(new Mod(mod.getName(), "", FileUtils.getSHA1(mod), (int)FileUtils.getFileSizeBytes(mod)));
+                    mods.add(new Mod(mod.getName(), "", FileUtils.getSHA1(mod), FileUtils.getFileSizeBytes(mod)));
                 }
     }
 

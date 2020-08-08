@@ -26,11 +26,11 @@ public class ExternalFileProcessor implements IProcessor
         if(dir.listFiles() != null)
             for (File mod : dir.listFiles())
                 if(!mod.isDirectory())
-                    this.externalFiles.add(new ExternalFile(mod.getName(), "", FileUtils.getSHA1(mod)));
+                    this.externalFiles.add(new ExternalFile(mod.getName(), "", FileUtils.getSHA1(mod), FileUtils.getFileSizeBytes(mod)));
                 else
                 {
                     for (File sub : this.getSubFiles(mod))
-                        this.externalFiles.add(new ExternalFile(sub.getAbsolutePath().replace(dir.getAbsolutePath(), ""), "", FileUtils.getSHA1(sub)));
+                        this.externalFiles.add(new ExternalFile(sub.getAbsolutePath().replace(dir.getAbsolutePath(), ""), "", FileUtils.getSHA1(sub), FileUtils.getFileSizeBytes(sub)));
                 }
     }
 
@@ -54,11 +54,12 @@ public class ExternalFileProcessor implements IProcessor
         final JsonObject object = new JsonObject();
         final JsonArray extFilesArray = new JsonArray(this.externalFiles.size());
         final Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        this.externalFiles.forEach(mod -> {
+        this.externalFiles.forEach(extFile -> {
             final JsonObject extFileObject = new JsonObject();
-            extFileObject.addProperty("path", mod.getPath());
-            extFileObject.addProperty("downloadURL", mod.getDownloadURL());
-            extFileObject.addProperty("sha1", mod.getSha1());
+            extFileObject.addProperty("path", extFile.getPath());
+            extFileObject.addProperty("downloadURL", extFile.getDownloadURL());
+            extFileObject.addProperty("sha1", extFile.getSha1());
+            extFileObject.addProperty("size", extFile.getSize());
             extFilesArray.add(extFileObject);
         });
         object.add("extfiles", extFilesArray);

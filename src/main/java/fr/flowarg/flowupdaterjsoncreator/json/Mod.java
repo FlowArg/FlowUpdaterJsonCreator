@@ -5,9 +5,9 @@ public class Mod
     private final String name;
     private final String downloadURL;
     private final String sha1;
-    private final int size;
+    private final long size;
 
-    public Mod(String name, String downloadURL, String sha1, int size)
+    public Mod(String name, String downloadURL, String sha1, long size)
     {
         this.name = name;
         this.downloadURL = downloadURL;
@@ -30,7 +30,7 @@ public class Mod
         return this.sha1;
     }
 
-    public int getSize()
+    public long getSize()
     {
         return this.size;
     }
