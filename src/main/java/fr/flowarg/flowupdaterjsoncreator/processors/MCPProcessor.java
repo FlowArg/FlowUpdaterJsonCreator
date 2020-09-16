@@ -5,6 +5,8 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import fr.flowarg.flowio.FileUtils;
 import fr.flowarg.flowupdaterjsoncreator.json.MCP;
+import fr.flowarg.flowupdaterjsoncreator.ui.panels.Panels;
+import fr.flowarg.flowupdaterjsoncreator.ui.panels.UrlPanel;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -23,9 +25,8 @@ public class MCPProcessor implements IProcessor
         final boolean clientExist = client.exists();
         final File server = new File(dir, "server.jar");
         final boolean serverExist = server.exists();
-
-        this.mcp = new MCP("", clientExist ? FileUtils.getSHA1(client) : "", clientExist ? (int)FileUtils.getFileSizeBytes(client) : -1,
-                           "", serverExist ? FileUtils.getSHA1(server) : "", serverExist ? (int)FileUtils.getFileSizeBytes(server) : -1);
+        this.mcp = new MCP(((UrlPanel)Panels.URL_PANEL).getDefaultUrl() + client.getName(), clientExist ? FileUtils.getSHA1(client) : "", clientExist ? (int)FileUtils.getFileSizeBytes(client) : -1,
+                           ((UrlPanel)Panels.URL_PANEL).getDefaultUrl() + server.getName(), serverExist ? FileUtils.getSHA1(server) : "", serverExist ? (int)FileUtils.getFileSizeBytes(server) : -1);
     }
 
     @Override

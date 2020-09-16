@@ -6,6 +6,8 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import fr.flowarg.flowio.FileUtils;
 import fr.flowarg.flowupdaterjsoncreator.json.Mod;
+import fr.flowarg.flowupdaterjsoncreator.ui.panels.Panels;
+import fr.flowarg.flowupdaterjsoncreator.ui.panels.UrlPanel;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -26,9 +28,7 @@ public class ModProcessor implements IProcessor
         if(dir.listFiles() != null)
             for (File mod : dir.listFiles())
                 if(!mod.isDirectory())
-                {
-                    mods.add(new Mod(mod.getName(), "", FileUtils.getSHA1(mod), FileUtils.getFileSizeBytes(mod)));
-                }
+                    mods.add(new Mod(mod.getName(), ((UrlPanel)Panels.URL_PANEL).getDefaultUrl() + "mods/" + mod.getName(), FileUtils.getSHA1(mod), FileUtils.getFileSizeBytes(mod)));
     }
 
     @Override

@@ -10,9 +10,6 @@ import fr.flowarg.flowupdaterjsoncreator.ui.PanelManager;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
-import java.io.File;
-import java.io.IOException;
-
 public class FlowUpdaterJsonCreator
 {
     private static FlowUpdaterJsonCreator instance;
@@ -22,17 +19,17 @@ public class FlowUpdaterJsonCreator
     private final IProcessor externalFileProcessor;
     private PanelManager panelManager;
 
-    FlowUpdaterJsonCreator() throws IOException
+    FlowUpdaterJsonCreator()
     {
         instance = this;
-        final File logFile = new File(".", "jsoncreator.log");
-        logFile.getParentFile().mkdirs();
-        logFile.delete();
-        logFile.createNewFile();
-        this.logger = new Logger("[JsonCreator]", logFile);
+        this.logger = new Logger("[JsonCreator]", null);
         this.modProcessor = new ModProcessor();
         this.mcpProcessor = new MCPProcessor();
         this.externalFileProcessor = new ExternalFileProcessor();
+    }
+
+    public void start()
+    {
         this.logger.info("Starting json creator...");
         try
         {

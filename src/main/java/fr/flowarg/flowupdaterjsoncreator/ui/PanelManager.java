@@ -60,7 +60,7 @@ public class PanelManager
 
     public void showPanel(IPanel panel)
     {
-        this.jsonCreator.getLogger().info("Opening : " + panel.getName());
+        this.jsonCreator.getLogger().debug("Opening : " + panel.getName());
         this.centerPanel.getChildren().clear();
         this.centerPanel.getChildren().add(panel.getLayout());
         panel.init(this);

@@ -6,6 +6,8 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import fr.flowarg.flowio.FileUtils;
 import fr.flowarg.flowupdaterjsoncreator.json.ExternalFile;
+import fr.flowarg.flowupdaterjsoncreator.ui.panels.Panels;
+import fr.flowarg.flowupdaterjsoncreator.ui.panels.UrlPanel;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -24,13 +26,13 @@ public class ExternalFileProcessor implements IProcessor
     {
         this.externalFiles.clear();
         if(dir.listFiles() != null)
-            for (File mod : dir.listFiles())
-                if(!mod.isDirectory())
-                    this.externalFiles.add(new ExternalFile(mod.getName(), "", FileUtils.getSHA1(mod), FileUtils.getFileSizeBytes(mod)));
+            for (File extFile : dir.listFiles())
+                if(!extFile.isDirectory())
+                    this.externalFiles.add(new ExternalFile(extFile.getName(), ((UrlPanel)Panels.URL_PANEL).getDefaultUrl() + extFile.getName(), FileUtils.getSHA1(extFile), FileUtils.getFileSizeBytes(extFile)));
                 else
                 {
-                    for (File sub : this.getSubFiles(mod))
-                        this.externalFiles.add(new ExternalFile(sub.getAbsolutePath().replace(dir.getAbsolutePath(), ""), "", FileUtils.getSHA1(sub), FileUtils.getFileSizeBytes(sub)));
+                    for (File sub : this.getSubFiles(extFile))
+                        this.externalFiles.add(new ExternalFile(sub.getAbsolutePath().replace(dir.getAbsolutePath(), ""), ((UrlPanel)Panels.URL_PANEL).getDefaultUrl() + sub.getAbsolutePath().replace(dir.getAbsolutePath(), ""), FileUtils.getSHA1(sub), FileUtils.getFileSizeBytes(sub)));
                 }
     }
 

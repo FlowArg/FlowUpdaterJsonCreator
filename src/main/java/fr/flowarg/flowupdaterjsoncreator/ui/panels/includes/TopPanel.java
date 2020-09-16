@@ -39,7 +39,7 @@ public class TopPanel extends AbstractPanel
         this.layout.getChildren().add(title);
         title.setFont(Font.font("Consolas", FontWeight.THIN, FontPosture.REGULAR, 19.0f));
         title.setStyle("-fx-text-fill: white;");
-        title.setText("FlowUpdater - JsonEditor");
+        title.setText("FlowUpdater - JsonCreator");
 
         this.setCenterH(title);
         topBarButton.setMinWidth(100);
