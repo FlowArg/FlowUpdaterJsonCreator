@@ -81,9 +81,4 @@ public class PanelManager
     {
         return this.jsonCreator;
     }
-
-    public IPanel getTopPanel()
-    {
-        return this.topPanel;
-    }
 }

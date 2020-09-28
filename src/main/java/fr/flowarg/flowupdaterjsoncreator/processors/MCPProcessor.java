@@ -4,13 +4,11 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import fr.flowarg.flowio.FileUtils;
+import fr.flowarg.flowupdaterjsoncreator.FlowUpdaterJsonCreator;
 import fr.flowarg.flowupdaterjsoncreator.json.MCP;
 import fr.flowarg.flowupdaterjsoncreator.ui.panels.Panels;
-import fr.flowarg.flowupdaterjsoncreator.ui.panels.UrlPanel;
 
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 
 public class MCPProcessor implements IProcessor
@@ -19,14 +17,14 @@ public class MCPProcessor implements IProcessor
     private String finalJson;
 
     @Override
-    public void process(File dir, Object... args)
+    public void process(File dir, Object... args) throws Exception
     {
         final File client = new File(dir, "client.jar");
         final boolean clientExist = client.exists();
         final File server = new File(dir, "server.jar");
         final boolean serverExist = server.exists();
-        this.mcp = new MCP(clientExist ? ((UrlPanel)Panels.URL_PANEL).getDefaultUrl() + client.getName() : "", clientExist ? FileUtils.getSHA1(client) : "", clientExist ? (int)FileUtils.getFileSizeBytes(client) : -1,
-                           serverExist ? ((UrlPanel)Panels.URL_PANEL).getDefaultUrl() + server.getName() : "", serverExist ? FileUtils.getSHA1(server) : "", serverExist ? (int)FileUtils.getFileSizeBytes(server) : -1);
+        this.mcp = new MCP(clientExist ? Panels.URL_PANEL.getDefaultUrl() + client.getName() : "", clientExist ? FileUtils.getSHA1(client) : "", clientExist ? (int)FileUtils.getFileSizeBytes(client) : -1,
+                           serverExist ? Panels.URL_PANEL.getDefaultUrl() + server.getName() : "", serverExist ? FileUtils.getSHA1(server) : "", serverExist ? (int)FileUtils.getFileSizeBytes(server) : -1);
     }
 
     @Override
@@ -48,13 +46,10 @@ public class MCPProcessor implements IProcessor
     {
         try
         {
-            final BufferedWriter writer = new BufferedWriter(new FileWriter(file));
-            writer.write(this.finalJson);
-            writer.flush();
-            writer.close();
+            FileUtils.saveFile(file, this.finalJson);
         } catch (IOException e)
         {
-            e.printStackTrace();
+            FlowUpdaterJsonCreator.getInstance().getLogger().printStackTrace(e);
         }
     }
 }

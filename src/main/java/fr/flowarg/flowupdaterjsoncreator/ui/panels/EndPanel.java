@@ -19,7 +19,8 @@ class EndPanel extends AbstractPanel
     public void init(PanelManager panelManager)
     {
         super.init(panelManager);
-        final Label label = new Label("Don't forget to add manually\ndownload urls in the json file !");
+        final String text = Panels.URL_PANEL.getDefaultUrl().equals("/") ? "Don't forget to add manually\ndownload urls in the json file !" : "Don't forget to check if\n   the json is correct !";
+        final Label label = new Label(text);
         final JFXButton button = new JFXButton("Exit");
         button.setButtonType(JFXButton.ButtonType.RAISED);
         button.setStyle("-fx-background-color: rgb(59,58,58); -fx-text-fill: white;");

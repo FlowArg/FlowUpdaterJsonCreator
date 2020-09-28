@@ -68,7 +68,7 @@ public class FlowUpdaterJsonCreator
         return this.modProcessor;
     }
 
-    public IProcessor getMcpProcessor()
+    public IProcessor getMCPProcessor()
     {
         return this.mcpProcessor;
     }

@@ -10,7 +10,7 @@ import javafx.scene.text.Font;
 
 public class UrlPanel extends AbstractPanel
 {
-    private String defaultUrl = "";
+    private String defaultUrl = "/";
 
     public UrlPanel()
     {
@@ -43,10 +43,10 @@ public class UrlPanel extends AbstractPanel
         skip.setOnMouseExited(event -> skip.setCursor(Cursor.DEFAULT));
         skip.setOnMouseClicked(event -> {
             skip.setCursor(Cursor.DEFAULT);
-            this.defaultUrl = "/";
             panelManager.showPanel(Panels.CHOOSE_JSON_TYPE_PANEL);
         });
         skip.setFont(Font.font("Consolas", 22));
+        skip.setFocusTraversable(false);
 
         final JFXButton enter = new JFXButton("Done");
         enter.setFont(Font.font("Consolas", 34));
@@ -55,10 +55,19 @@ public class UrlPanel extends AbstractPanel
         enter.setOnMouseEntered(event -> enter.setCursor(Cursor.HAND));
         enter.setOnMouseExited(event -> enter.setCursor(Cursor.DEFAULT));
         enter.setOnMouseClicked(event -> {
-            skip.setCursor(Cursor.DEFAULT);
-            this.defaultUrl = urlArea.getText();
-            panelManager.showPanel(Panels.CHOOSE_JSON_TYPE_PANEL);
+            if(urlArea.getText().contains("\n") || urlArea.getText().contains("\t"))
+            {
+                enterUrl.setText("Invalid URL !");
+                enterUrl.setTextFill(Color.RED);
+            }
+            else
+            {
+                skip.setCursor(Cursor.DEFAULT);
+                this.defaultUrl = urlArea.getText();
+                panelManager.showPanel(Panels.CHOOSE_JSON_TYPE_PANEL);
+            }
         });
+        enter.setFocusTraversable(false);
 
         this.setCenterH(enterUrl);
         this.setCenterV(enterUrl);
@@ -89,6 +98,6 @@ public class UrlPanel extends AbstractPanel
 
     public String getDefaultUrl()
     {
-        return this.defaultUrl.endsWith("/") ? defaultUrl : defaultUrl + '/';
+        return this.defaultUrl.endsWith("/") ? this.defaultUrl : this.defaultUrl + '/';
     }
 }

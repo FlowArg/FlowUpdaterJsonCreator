@@ -14,6 +14,5 @@ public class FxApplication extends Application
         jsonCreator.setPanelManager(stage);
         jsonCreator.getPanelManager().init();
         jsonCreator.getPanelManager().showPanel(Panels.URL_PANEL);
-        //jsonCreator.getPanelManager().showPanel(Panels.CHOOSE_JSON_TYPE_PANEL);
     }
 }

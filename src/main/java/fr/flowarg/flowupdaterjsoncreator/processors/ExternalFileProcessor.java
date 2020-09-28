@@ -5,13 +5,11 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import fr.flowarg.flowio.FileUtils;
+import fr.flowarg.flowupdaterjsoncreator.FlowUpdaterJsonCreator;
 import fr.flowarg.flowupdaterjsoncreator.json.ExternalFile;
 import fr.flowarg.flowupdaterjsoncreator.ui.panels.Panels;
-import fr.flowarg.flowupdaterjsoncreator.ui.panels.UrlPanel;
 
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,17 +20,17 @@ public class ExternalFileProcessor implements IProcessor
     private String finalJson;
 
     @Override
-    public void process(File dir, Object... args)
+    public void process(File dir, Object... args) throws Exception
     {
         this.externalFiles.clear();
         if(dir.listFiles() != null)
             for (File extFile : dir.listFiles())
                 if(!extFile.isDirectory())
-                    this.externalFiles.add(new ExternalFile(extFile.getName(), ((UrlPanel)Panels.URL_PANEL).getDefaultUrl() + extFile.getName(), FileUtils.getSHA1(extFile), FileUtils.getFileSizeBytes(extFile)));
+                    this.externalFiles.add(new ExternalFile(extFile.getName(), Panels.URL_PANEL.getDefaultUrl() + extFile.getName(), FileUtils.getSHA1(extFile), FileUtils.getFileSizeBytes(extFile)));
                 else
                 {
                     for (File sub : this.getSubFiles(extFile))
-                        this.externalFiles.add(new ExternalFile(sub.getAbsolutePath().replace(dir.getAbsolutePath() + "/", ""), ((UrlPanel)Panels.URL_PANEL).getDefaultUrl() + sub.getAbsolutePath().replace(dir.getAbsolutePath() + "/", ""), FileUtils.getSHA1(sub), FileUtils.getFileSizeBytes(sub)));
+                        this.externalFiles.add(new ExternalFile(sub.getAbsolutePath().replace(dir.getAbsolutePath() + "/", ""), Panels.URL_PANEL.getDefaultUrl() + sub.getAbsolutePath().replace(dir.getAbsolutePath() + "/", ""), FileUtils.getSHA1(sub), FileUtils.getFileSizeBytes(sub)));
                 }
     }
 
@@ -74,13 +72,10 @@ public class ExternalFileProcessor implements IProcessor
     {
         try
         {
-            final BufferedWriter writer = new BufferedWriter(new FileWriter(file));
-            writer.write(this.finalJson);
-            writer.flush();
-            writer.close();
+            FileUtils.saveFile(file, this.finalJson);
         } catch (IOException e)
         {
-            e.printStackTrace();
+            FlowUpdaterJsonCreator.getInstance().getLogger().printStackTrace(e);
         }
     }
 }

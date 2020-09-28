@@ -5,13 +5,11 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import fr.flowarg.flowio.FileUtils;
+import fr.flowarg.flowupdaterjsoncreator.FlowUpdaterJsonCreator;
 import fr.flowarg.flowupdaterjsoncreator.json.Mod;
 import fr.flowarg.flowupdaterjsoncreator.ui.panels.Panels;
-import fr.flowarg.flowupdaterjsoncreator.ui.panels.UrlPanel;
 
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,13 +20,13 @@ public class ModProcessor implements IProcessor
     private String finalJson;
 
     @Override
-    public void process(File dir, Object... args)
+    public void process(File dir, Object... args) throws Exception
     {
         this.mods.clear();
         if(dir.listFiles() != null)
             for (File mod : dir.listFiles())
                 if(!mod.isDirectory())
-                    mods.add(new Mod(mod.getName(), ((UrlPanel)Panels.URL_PANEL).getDefaultUrl() + "mods/" + mod.getName(), FileUtils.getSHA1(mod), FileUtils.getFileSizeBytes(mod)));
+                    mods.add(new Mod(mod.getName(), Panels.URL_PANEL.getDefaultUrl() + "mods/" + mod.getName(), FileUtils.getSHA1(mod), FileUtils.getFileSizeBytes(mod)));
     }
 
     @Override
@@ -55,13 +53,10 @@ public class ModProcessor implements IProcessor
     {
         try
         {
-            final BufferedWriter writer = new BufferedWriter(new FileWriter(file));
-            writer.write(this.finalJson);
-            writer.flush();
-            writer.close();
+            FileUtils.saveFile(file, this.finalJson);
         } catch (IOException e)
         {
-            e.printStackTrace();
+            FlowUpdaterJsonCreator.getInstance().getLogger().printStackTrace(e);
         }
     }
 }

@@ -1,6 +1,7 @@
 package fr.flowarg.flowupdaterjsoncreator.ui.panels;
 
 import com.jfoenix.controls.JFXButton;
+import fr.flowarg.flowupdaterjsoncreator.FlowUpdaterJsonCreator;
 import fr.flowarg.flowupdaterjsoncreator.processors.IProcessor;
 import fr.flowarg.flowupdaterjsoncreator.ui.PanelManager;
 import javafx.application.Platform;
@@ -54,7 +55,7 @@ public class GenerationPanel extends AbstractPanel
                     switch (this.type)
                     {
                         case MCP:
-                            processor = this.panelManager.getJsonCreator().getMcpProcessor();
+                            processor = this.panelManager.getJsonCreator().getMCPProcessor();
                             break;
                         case EXT_FILES:
                             processor = this.panelManager.getJsonCreator().getExternalFileProcessor();
@@ -63,7 +64,13 @@ public class GenerationPanel extends AbstractPanel
                             processor = this.panelManager.getJsonCreator().getModProcessor();
                             break;
                     }
-                    processor.process(file);
+                    try
+                    {
+                        processor.process(file);
+                    } catch (Exception e)
+                    {
+                        FlowUpdaterJsonCreator.getInstance().getLogger().printStackTrace(e);
+                    }
                     processor.generate();
                     final AtomicReference<File> jsonFile = new AtomicReference<>(null);
                     Platform.runLater(() -> {
@@ -79,7 +86,7 @@ public class GenerationPanel extends AbstractPanel
                         if(jsonFile.get() != null)
                         {
                             processor.save(jsonFile.get());
-                            this.panelManager.showPanel(new EndPanel());
+                            this.panelManager.showPanel(Panels.END_PANEL);
                         }
                         else this.panelManager.showPanel(new GenerationPanel(this.type));
                     });
