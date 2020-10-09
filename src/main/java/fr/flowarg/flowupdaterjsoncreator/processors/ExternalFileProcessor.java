@@ -30,7 +30,7 @@ public class ExternalFileProcessor implements IProcessor
                 else
                 {
                     for (File sub : this.getSubFiles(extFile))
-                        this.externalFiles.add(new ExternalFile(sub.getAbsolutePath().replace(dir.getAbsolutePath() + "/", ""), Panels.URL_PANEL.getDefaultUrl() + sub.getAbsolutePath().replace(dir.getAbsolutePath() + "/", ""), FileUtils.getSHA1(sub), FileUtils.getFileSizeBytes(sub)));
+                        this.externalFiles.add(new ExternalFile(sub.getAbsolutePath().replace(dir.getAbsolutePath() + File.separator, ""), Panels.URL_PANEL.getDefaultUrl() + sub.getAbsolutePath().replace(dir.getAbsolutePath() + File.separator, ""), FileUtils.getSHA1(sub), FileUtils.getFileSizeBytes(sub)));
                 }
     }
 
