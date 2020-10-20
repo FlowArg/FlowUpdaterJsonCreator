@@ -81,7 +81,7 @@ public class GenerationPanel extends AbstractPanel
                         final FileChooser jsonFileChooser = new FileChooser();
                         jsonFileChooser.setInitialFileName(this.type.getDefaultFileName());
                         jsonFileChooser.setTitle("Choose output JSON file");
-                        jsonFileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("JavaScript Object Notation JSON", ".json"));
+                        jsonFileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("JavaScript Object Notation JSON", "*.json"));
                         jsonFile.set(jsonFileChooser.showSaveDialog(this.panelManager.getStage()));
                         if(jsonFile.get() != null)
                         {

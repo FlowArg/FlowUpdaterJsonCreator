@@ -55,7 +55,8 @@ public class UrlPanel extends AbstractPanel
         enter.setOnMouseEntered(event -> enter.setCursor(Cursor.HAND));
         enter.setOnMouseExited(event -> enter.setCursor(Cursor.DEFAULT));
         enter.setOnMouseClicked(event -> {
-            if(urlArea.getText().contains("\n") || urlArea.getText().contains("\t"))
+            final String txt = urlArea.getText();
+            if(txt.contains("\n") || txt.contains("\t") || txt.trim().equalsIgnoreCase("") || !txt.contains("://"))
             {
                 enterUrl.setText("Invalid URL !");
                 enterUrl.setTextFill(Color.RED);
