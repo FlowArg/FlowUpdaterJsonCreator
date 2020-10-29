@@ -16,13 +16,12 @@ import javafx.stage.FileChooser;
 import java.io.File;
 import java.util.concurrent.atomic.AtomicReference;
 
-public class GenerationPanel extends AbstractPanel
+public class BrowsePanel extends AbstractPanel
 {
     private final JsonType type;
 
-    public GenerationPanel(JsonType type)
+    public BrowsePanel(JsonType type)
     {
-        super(null);
         this.type = type;
     }
 
@@ -88,7 +87,7 @@ public class GenerationPanel extends AbstractPanel
                             processor.save(jsonFile.get());
                             this.panelManager.showPanel(Panels.END_PANEL);
                         }
-                        else this.panelManager.showPanel(new GenerationPanel(this.type));
+                        else this.panelManager.showPanel(new BrowsePanel(this.type));
                     });
                 }).start();
             }

@@ -12,11 +12,6 @@ public class UrlPanel extends AbstractPanel
 {
     private String defaultUrl = "/";
 
-    public UrlPanel()
-    {
-        super(null);
-    }
-
     @Override
     public void init(PanelManager panelManager)
     {

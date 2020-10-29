@@ -1,5 +1,6 @@
 package fr.flowarg.flowupdaterjsoncreator;
 
+import fr.flowarg.flowlogger.ILogger;
 import fr.flowarg.flowlogger.Logger;
 import fr.flowarg.flowupdaterjsoncreator.processors.ExternalFileProcessor;
 import fr.flowarg.flowupdaterjsoncreator.processors.IProcessor;
@@ -13,7 +14,7 @@ import javafx.stage.Stage;
 public class FlowUpdaterJsonCreator
 {
     private static FlowUpdaterJsonCreator instance;
-    private final Logger logger;
+    private final ILogger logger;
     private final IProcessor modProcessor;
     private final IProcessor mcpProcessor;
     private final IProcessor externalFileProcessor;
@@ -48,7 +49,7 @@ public class FlowUpdaterJsonCreator
         System.exit(0);
     }
 
-    public Logger getLogger()
+    public ILogger getLogger()
     {
         return this.logger;
     }

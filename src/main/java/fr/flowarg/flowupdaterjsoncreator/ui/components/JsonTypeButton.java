@@ -2,7 +2,7 @@ package fr.flowarg.flowupdaterjsoncreator.ui.components;
 
 import com.jfoenix.controls.JFXButton;
 import fr.flowarg.flowupdaterjsoncreator.FlowUpdaterJsonCreator;
-import fr.flowarg.flowupdaterjsoncreator.ui.panels.GenerationPanel;
+import fr.flowarg.flowupdaterjsoncreator.ui.panels.BrowsePanel;
 import fr.flowarg.flowupdaterjsoncreator.ui.panels.JsonType;
 import javafx.scene.Cursor;
 import javafx.scene.layout.GridPane;
@@ -22,7 +22,7 @@ public class JsonTypeButton extends GridPane implements ITakePlace
         button.setMinSize(230, 80);
         button.setOnMouseEntered(event -> button.setCursor(Cursor.HAND));
         button.setOnMouseExited(event -> button.setCursor(Cursor.DEFAULT));
-        button.setOnMouseClicked(event -> FlowUpdaterJsonCreator.getInstance().getPanelManager().showPanel(new GenerationPanel(type)));
+        button.setOnMouseClicked(event -> FlowUpdaterJsonCreator.getInstance().getPanelManager().showPanel(new BrowsePanel(type)));
         this.add(button, 0, 0);
     }
 }

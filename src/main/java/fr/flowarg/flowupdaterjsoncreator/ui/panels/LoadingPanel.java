@@ -5,11 +5,6 @@ import fr.flowarg.flowupdaterjsoncreator.ui.PanelManager;
 
 class LoadingPanel extends AbstractPanel
 {
-    public LoadingPanel()
-    {
-        super(null);
-    }
-
     @Override
     public void init(PanelManager panelManager)
     {

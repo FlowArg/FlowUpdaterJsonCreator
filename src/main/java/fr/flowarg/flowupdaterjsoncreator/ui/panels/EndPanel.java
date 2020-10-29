@@ -10,11 +10,6 @@ import javafx.scene.text.Font;
 
 class EndPanel extends AbstractPanel
 {
-    public EndPanel()
-    {
-        super(null);
-    }
-
     @Override
     public void init(PanelManager panelManager)
     {

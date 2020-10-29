@@ -4,13 +4,8 @@ import fr.flowarg.flowupdaterjsoncreator.ui.PanelManager;
 import fr.flowarg.flowupdaterjsoncreator.ui.components.JsonTypeButton;
 import javafx.scene.layout.GridPane;
 
-public class ChooseJsonTypePanel extends AbstractPanel
+class ChooseJsonTypePanel extends AbstractPanel
 {
-    public ChooseJsonTypePanel()
-    {
-        super(null);
-    }
-
     @Override
     public void init(PanelManager panelManager)
     {

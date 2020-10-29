@@ -20,11 +20,6 @@ public class TopPanel extends AbstractPanel
     private static double xOffset = 0;
     private static double yOffset = 0;
 
-    public TopPanel()
-    {
-        super(null);
-    }
-
     @Override
     public void init(PanelManager panelManager)
     {

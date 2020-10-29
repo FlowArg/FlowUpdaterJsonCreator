@@ -1,6 +1,7 @@
 package fr.flowarg.flowupdaterjsoncreator.ui.panels;
 
-import fr.flowarg.flowlogger.Logger;
+import fr.flowarg.flowlogger.ILogger;
+import fr.flowarg.flowupdaterjsoncreator.FlowUpdaterJsonCreator;
 import fr.flowarg.flowupdaterjsoncreator.ui.PanelManager;
 import fr.flowarg.flowupdaterjsoncreator.ui.components.IMovable;
 import javafx.animation.FadeTransition;
@@ -15,11 +16,11 @@ public abstract class AbstractPanel implements IPanel, IMovable
 {
     protected GridPane layout = new GridPane();
     protected PanelManager panelManager;
-    protected final Logger logger;
+    protected final ILogger logger;
 
-    public AbstractPanel(Logger logger)
+    public AbstractPanel()
     {
-        this.logger = logger;
+        this.logger = FlowUpdaterJsonCreator.getInstance().getLogger();
     }
 
     @Override
